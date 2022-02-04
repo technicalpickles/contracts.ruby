@@ -1,6 +1,6 @@
 module Contracts
   module CallWith
-    def call_with(this, *args, &blk)
+    def call_with(this, *args, **kwargs, &blk)
       args << blk if blk
 
       # Explicitly append blk=nil if nil != Proc contract violation anticipated
@@ -70,10 +70,10 @@ module Contracts
       args.slice!(-1) if blk || nil_block_appended
       result = if method.respond_to?(:call)
                  # proc, block, lambda, etc
-                 method.call(*args, &blk)
+                 method.call(*args, **kwargs, &blk)
                else
                  # original method name referrence
-                 method.send_to(this, *args, &blk)
+                 method.send_to(this, *args, **kwargs, &blk)
                end
 
       unless @ret_validator[result]

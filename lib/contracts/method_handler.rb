@@ -107,7 +107,7 @@ module Contracts
       current_engine = engine
 
       # We are gonna redefine original method here
-      method_reference.make_definition(target) do |*args, &blk|
+      method_reference.make_definition(target) do |*args, **kwargs, &blk|
         engine = current_engine.nearest_decorated_ancestor
 
         # If we weren't able to find any ancestor that has decorated methods
@@ -135,7 +135,7 @@ module Contracts
           i += 1
           begin
             success = true
-            result = decorated_method.call_with(self, *args, &blk)
+            result = decorated_method.call_with(self, *args, **kwargs, &blk)
           rescue expected_error => error
             success = false
             unless decorated_methods[i]

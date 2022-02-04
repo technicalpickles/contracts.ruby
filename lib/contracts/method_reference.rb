@@ -39,8 +39,8 @@ module Contracts
 
     # Calls original method on specified `this` argument with
     # specified arguments `args` and block `&blk`.
-    def send_to(this, *args, &blk)
-      this.send(aliased_name, *args, &blk)
+    def send_to(this, *args, **kwargs, &blk)
+      this.send(aliased_name, *args, **kwargs, &blk)
     end
 
     private
